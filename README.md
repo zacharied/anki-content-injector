@@ -21,7 +21,7 @@ file should contain all the CSS rules you want to apply globally.
 
 ## Support
 
-Submit an [issue](https://github.com/Arthaey/anki-global-css/issues/new).
+Submit an [issue](https://github.com/zacharied/anki-global-css/issues/new).
 
 Feel free to write reviews on the plugin page but I cannot guarantee that I
 will check them; GitHub is the better way to get my attention.
