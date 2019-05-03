@@ -9,7 +9,7 @@ by [Arthaey's similar add-on for Anki
 useful improvements.
 
 * A restart is not needed to reload the CSS file; it is injected into the
-  template at render-time
+  template at render-time using the `prepareQA` hook added in 2.1.0b16
 * Template-local CSS still applies (Arthaey's add-on replaced the template CSS
   instead of adding to it)
 * Global CSS can be toggled without having to delete or move the CSS file
@@ -23,8 +23,8 @@ file should contain all the CSS rules you want to apply globally.
 
 Submit an [issue](https://github.com/Arthaey/anki-global-css/issues/new).
 
-Feel free to write reviews but I cannot guarantee that I will check them;
-GitHub is the better way to get my attention.
+Feel free to write reviews on the plugin page but I cannot guarantee that I
+will check them; GitHub is the better way to get my attention.
 
 ## License
 
