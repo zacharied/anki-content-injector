@@ -1,5 +1,7 @@
 # anki-global-css
 
+[Anki add-on ID: 166455199](https://ankiweb.net/shared/info/166455199)
+
 *Current version: 0.1*
 
 ## Overview

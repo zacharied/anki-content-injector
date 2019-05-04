@@ -8,7 +8,7 @@ SHELL := /bin/bash
 all: document plugin
 
 document:
-	pandoc --to=html < README.md | tail -n+2 | sed -E \
+	pandoc --to=html < README.md | tail -n+3 | sed -E \
 		-e 's,</?p>,,g' \
 		-e 's,<em>(.*)</em>,<i>\1</i>,' \
 		-e 's,<ul>\\n,<ul>,' \
