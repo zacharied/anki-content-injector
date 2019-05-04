@@ -1,5 +1,7 @@
 # anki-global-css
 
+*Current version: 0.1*
+
 ## Overview
 
 This is an add-on for [Anki 2.1](https://apps.ankiweb.net) that allows for a
