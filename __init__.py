@@ -4,9 +4,8 @@ import os
 from aqt import mw
 from anki.hooks import addHook
 
-STYLESHEET_FILE = '_global.css'
-
-isEnabled = True
+config = mw.addonManager.getConfig(__name__)
+isEnabled = config['startEnabled']
 
 def toggleEnabled(action):
     global isEnabled
@@ -15,15 +14,21 @@ def toggleEnabled(action):
 
 def injectGlobalCss(html, card, context):
     global isEnabled
+    global config
+
     if not isEnabled:
         return html
 
-    cssFilePath = os.path.join(mw.col.media.dir(), STYLESHEET_FILE)
+    cssFilePath = os.path.join(mw.col.media.dir(), config['cssFile'])
     if not os.path.isfile(cssFilePath):
         return html
     
     with open(cssFilePath, 'r', encoding='utf-8') as cssFile:
-        return html + '<style>' + cssFile.read() + '</style>'
+        style = '<style>' + cssFile.read() + '</style>'
+        if config['loadAtHead'] == True:
+            return style + html
+        else:
+            return html + style
 
 mw.form.menuTools.addSeparator()
 action = mw.form.menuTools.addAction('Use Global CSS')
