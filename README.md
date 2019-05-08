@@ -20,6 +20,8 @@ useful improvements.
 
 ## Instructions
 
+First, install the add-on from Anki's menu with the above ID.
+
 Place a file `_global.css` in your profile's `collection.media` directory. This
 file should contain all the CSS rules you want to apply globally.
 
@@ -44,6 +46,17 @@ If you discover an error or have a request, submit an
 
 Feel free to write reviews on the plugin page but I cannot guarantee that I
 will check them; GitHub is the better way to get my attention.
+
+## Building & packaging
+
+Please ignore this section if you just want to use the add-on. This is for
+add-on developers only.
+
+Development on this add-on is simple. All code is in the `__init__.py` file.
+The Makefile will create everything needed to upload the add-on to AnkiWeb.
+Then, go to the AnkiWeb add-on portal and choose to update the plugin. Choose
+the craeted `global-css.zip` archive as the plugin file, and then paste the
+contents of the new `description.html` into the description field.
 
 ## License
 
