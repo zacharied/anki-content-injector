@@ -1,5 +1,5 @@
 {
-    "cssFile": "_global.css",
+    "cssFiles": [ "_global.css" ],
     "startEnabled": true,
     "loadAtHead": false
 }

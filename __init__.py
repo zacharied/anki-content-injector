@@ -1,4 +1,3 @@
-import codecs
 import os
 
 from aqt import mw
@@ -19,21 +18,23 @@ def injectGlobalCss(html, card, context):
     if not isEnabled:
         return html
 
-    cssFilePath = os.path.join(mw.col.media.dir(), config['cssFile'])
-    if not os.path.isfile(cssFilePath):
-        return html
-    
-    with open(cssFilePath, 'r', encoding='utf-8') as cssFile:
-        style = '<style>' + cssFile.read() + '</style>'
-        if config['loadAtHead'] == True:
-            return style + html
-        else:
-            return html + style
+    style = ''
+    for f in config['cssFiles']:
+        cssFilePath = os.path.join(mw.col.media.dir(), f)
+        if not os.path.isfile(cssFilePath):
+            continue
+        with open(cssFilePath, 'r', encoding='utf-8') as cssFile:
+            style += '<style>' + cssFile.read() + '</style>'
 
+    if config['loadAtHead'] == True:
+        return style + html
+    else:
+        return html + style
+    
 mw.form.menuTools.addSeparator()
 action = mw.form.menuTools.addAction('Use Global CSS')
 action.setCheckable(True)
 action.setChecked(isEnabled)
-action.triggered.connect(lambda _, a=action: toggleEnabled(a))
+action.triggered.connect(lambda: toggleEnabled(action))
 
 addHook('prepareQA', injectGlobalCss)
