@@ -1,5 +1,5 @@
 {
-    "cssFiles": [ "_global.css" ],
     "startEnabled": true,
-    "loadAtHead": false
+    "injectFiles": [ "_global.css", "_global.html", "_global.js" ],
+    "injectAtTail": false
 }

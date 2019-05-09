@@ -1,7 +1,7 @@
 # Files that don't belong in plugin
 NOPLUG = .git .gitignore Makefile README.md description.html $(ZIPFILE)
 
-ZIPFILE := global-css.zip
+ZIPFILE := content-injector.zip
 
 SHELL := /bin/bash
 
