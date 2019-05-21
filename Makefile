@@ -1,7 +1,8 @@
 # Files that don't belong in plugin
-NOPLUG = .git .gitignore Makefile README.md description.html $(ZIPFILE)
+NOPLUG = .git .gitignore Makefile README.md $(DESCRIPTION) $(PACKAGE)
 
-ZIPFILE := content-injector.zip
+DESCRIPTION := description.html
+PACKAGE := content-injector.zip
 
 SHELL := /bin/bash
 
@@ -24,6 +25,9 @@ readme:
 
 # The archive to be uploaded to the add-on repo.
 plugin:
-	zip -r $(ZIPFILE) $(filter-out $(NOPLUG), $(wildcard *))	
+	zip -r $(PACKAGE) $(filter-out $(NOPLUG), $(wildcard *))
+
+clean:
+	rm $(DESCRIPTION) $(PACKAGE)
 
 .PHONY: all
