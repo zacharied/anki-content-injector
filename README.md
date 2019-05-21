@@ -34,6 +34,12 @@ Place any of the files `_global.html`, `_global.css`, and `_global.js` in
 your profile's `collection.media` directory. With default settings, these
 files will be injected into your cards.
 
+There will be a new toggle for "Inject Global Content" in the Tools menu. This
+can be unchecked to stop the add-on from injecting the content, instead
+rendering the cards with only the layout on their template. In the card layout
+editor, there is also a new checkbox to toggle injection. This is a temporary
+toggle and applies only to the layout editor window.
+
 ## Configuration
 
 * `startEnabled`: (Boolean, default: `true`). Whether to enable the plugin on
