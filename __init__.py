@@ -3,7 +3,6 @@ import os
 from aqt import mw, qt
 from aqt.clayout import CardLayout
 from anki.hooks import addHook, wrap
-from aqt.utils import showInfo
 import PyQt5
 
 EXT_TO_TAG = {
@@ -12,74 +11,65 @@ EXT_TO_TAG = {
     '.js': 'script'
 }
 
-config = mw.addonManager.getConfig(__name__)
+class ContentInjector():
+    def __init__(self):
+        self.config = mw.addonManager.getConfig(__name__)
+        self.isEnabledGlobal = self.config['startEnabled']
+        self.isEnabledPreview = self.isEnabledGlobal
 
-isEnabled = config['startEnabled']
-isEnabledPreview = isEnabled
+        mw.form.menuTools.addSeparator()
+        action = mw.form.menuTools.addAction('Inject Global Content')
+        action.setCheckable(True)
+        action.setChecked(self.isEnabledGlobal)
+        action.triggered.connect(lambda: self.onEnabledGlobalChange(action))
 
-def toggleEnabled(action):
-    global isEnabled
-    isEnabled = not isEnabled
-    action.setChecked(isEnabled)
+        addHook('prepareQA', self.injectContent)
+        CardLayout.setupTopArea = wrap(CardLayout.setupTopArea, self.myClayoutTopArea, "around")
 
-def setPreviewEnabled(check, editor):
-    global isEnabledPreview
-    isEnabledPreview = check.isChecked()
-    editor.redraw()
+    def availableInjectFiles(self):
+        files = []
+        for f in self.config['injectFiles']:
+            if os.path.isfile(os.path.join(mw.col.media.dir(), f)):
+                files.append(f)
+        return files
 
-def availableInjectFiles():
-    global config
-    files = []
-    for f in config['injectFiles']:
-        if os.path.isfile(os.path.join(mw.col.media.dir(), f)):
-            files.append(f)
-    return files
-
-def injectGlobalContent(html, card, context):
-    global isEnabled
-    global config
-
-    if not isEnabled:
-        return html
+    def onEnabledGlobalChange(self, action):
+        self.isEnabledGlobal = action.isChecked()
     
-    if not isEnabledPreview and (context == 'clayoutQuestion' or context == 'clayoutAnswer'):
-        return html
+    def onEnabledPreviewChange(self, action, editor):
+        self.isEnabledPreview = action.isChecked()
+        editor.redraw()
 
-    inject = ''
-    for f in config['injectFiles']:
-        injectFilePath = os.path.join(mw.col.media.dir(), f)
-        _, ext = os.path.splitext(injectFilePath)
-        if not os.path.isfile(injectFilePath):
-            continue
-        with open(injectFilePath, 'r', encoding='utf-8') as injectFile:
-            if not ext in EXT_TO_TAG:
-                continue
-            inject += '<{0}>{1}</{0}>'.format(EXT_TO_TAG[ext], injectFile.read())
+    def injectContent(self, html, card, context):
+        if context == 'clayoutQuestion' or context == 'clayoutAnswer':
+            if not self.isEnabledPreview:
+                return html
+        elif not self.isEnabledGlobal:
+            return html
 
-    if config['injectAtTail'] == True:
-        return html + inject
-    else:
-        return inject + html
+        inject = ''
+        for f in self.availableInjectFiles():
+            with open(f, 'r', encoding='utf-8') as injectFile:
+                _, ext = os.path.splitext(f)
+                if not ext in EXT_TO_TAG:
+                    continue
+                inject += '<{0}>{1}</{0}>'.format(EXT_TO_TAG[ext], injectFile.read())
 
-def clayoutEditorTopArea(editor, _old):
-    global isEnabled, isEnabledPreview
-    isEnabledPreview = isEnabled
+        if self.config['injectAtTail'] == True:
+            return html + inject
+        else:
+            return inject + html
 
-    _ret = _old(editor)
+    def myClayoutTopArea(self, editor, _old):
+        self.isEnabledPreview = self.isEnabledGlobal
 
-    checkbox = qt.QCheckBox("Inject global content in preview")
-    checkbox.setChecked(isEnabled)
-    checkbox.stateChanged.connect(lambda: setPreviewEnabled(checkbox, editor))
-    editor.topAreaForm.verticalLayout.addWidget(checkbox)
+        _ret = _old(editor)
 
-    return _ret
+        checkbox = qt.QCheckBox("Inject global content in preview")
+        checkbox.setChecked(self.isEnabledPreview)
+        checkbox.stateChanged.connect(lambda: self.onEnabledPreviewChange(checkbox, editor))
+        editor.topAreaForm.verticalLayout.addWidget(checkbox)
 
-mw.form.menuTools.addSeparator()
-action = mw.form.menuTools.addAction('Inject Global Content')
-action.setCheckable(True)
-action.setChecked(isEnabled)
-action.triggered.connect(lambda: toggleEnabled(action))
+        return _ret
 
-addHook('prepareQA', injectGlobalContent)
-
-CardLayout.setupTopArea = wrap(CardLayout.setupTopArea, clayoutEditorTopArea, "around")
+ContentInjector()
