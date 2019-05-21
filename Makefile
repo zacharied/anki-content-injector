@@ -15,7 +15,6 @@ document: readme
 		-e 's,</?p>,,g' \
 		-e 's,<em>(.*)</em>,<i>\1</i>,' \
 		-e 's,<i>Current version: [0-9.]*,\0 (Commit <a href="https://github.com/zacharied/anki-content-injector/tree/$(shell git rev-parse HEAD)">$(shell git rev-parse --short HEAD)</a>),' \
-		-e 's,<ul>\\n,<ul>,' \
 		-e 's,<h2.*\">(.*)</h2>,|<b>\1</b>,g' | tr '|' '\n' \
 		| awk '/\<\/?(ul|li)\>$$/ { printf("%s", $$0); next } 1' \
 		> description.html
