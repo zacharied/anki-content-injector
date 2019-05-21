@@ -2,7 +2,7 @@
   Anki startup. Note that the plugin can always be turned on and off via its
   toggle in the Tools menu.
 * `injectFiles`: (Array (String), default: `[ "_global.css", "_global.html",
-  "global.js" ]`). Names of the files to inject. These files must be inside
+  "_global.js" ]`). Names of the files to inject. These files must be inside
   the `collection.media` directory. If one of the files is not found, it is
   silently ignored.
 * `injectAtTail`: (Boolean, default: `false`) Inject the files at the end of the

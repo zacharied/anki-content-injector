@@ -22,7 +22,7 @@ Arthaey's add-on:
 * Support for more than one file.
 * Global HTML/CSS/JS can be toggled without having to delete or move the file(s).
 
-Do note that this plugin makes no changes to the content of your cards; all
+Do note that this add-on makes no changes to the content of your cards; all
 changes are limited to when the card is being rendered. Be sure that your
 decks work without your injection files before sharing them with others!
 
@@ -46,7 +46,7 @@ toggle and applies only to the layout editor window.
   Anki startup. Note that the plugin can always be turned on and off via its
   toggle in the Tools menu.
 * `injectFiles`: (Array (String), default: `[ "_global.css", "_global.html",
-  "global.js" ]`). Names of the files to inject. These files must be inside
+  "_global.js" ]`). Names of the files to inject. These files must be inside
   the `collection.media` directory. If one of the files is not found, it is
   silently ignored.
 * `injectAtTail`: (Boolean, default: `false`) Inject the files at the end of the
@@ -62,7 +62,7 @@ The code for this project is on
 If you discover an error or have a request, submit an
 [issue](https://github.com/zacharied/anki-global-css/issues/new).
 
-Feel free to write reviews on the plugin page but I cannot guarantee that I
+Feel free to write reviews on the add-on page but I cannot guarantee that I
 will check them; GitHub is the better way to get my attention.
 
 ## Building & packaging
@@ -72,8 +72,8 @@ add-on developers only.
 
 Development on this add-on is simple. All code is in the `__init__.py` file.
 The Makefile will create everything needed to upload the add-on to AnkiWeb.
-Then, go to the AnkiWeb add-on portal and choose to update the plugin. Choose
-the created `content-injector.zip` archive as the plugin file, and then paste
+Then, go to the AnkiWeb add-on portal and choose to update the add-on. Choose
+the created `content-injector.zip` archive as the add-on file, and then paste
 the contents of the new `description.html` into the description field.
 
 ## License
