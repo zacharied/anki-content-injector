@@ -6,6 +6,9 @@ PACKAGE := content-injector.zip
 
 SHELL := /bin/bash
 
+GIT_HASH = $(shell git log -n 1 --tags="v[0-9]\.[0-9]" --pretty="%H")
+GIT_HASH_SHORT = $(shell echo $(GIT_HASH) | head -c 8)
+
 all: document readme plugin
 
 # Convert the readme to an HTML file formatted to fit the add-on website's
@@ -14,7 +17,7 @@ document: readme
 	pandoc --to=html < README.md | tail -n+3 | sed -E \
 		-e 's,</?p>,,g' \
 		-e 's,<em>(.*)</em>,<i>\1</i>,' \
-		-e 's,<i>Current version: [0-9.]*,\0 (Commit <a href="https://github.com/zacharied/anki-content-injector/tree/$(shell git rev-parse HEAD)">$(shell git rev-parse --short HEAD)</a>),' \
+		-e 's,<i>Current version: [0-9.]*,\0 (Commit <a href="https://github.com/zacharied/anki-content-injector/tree/$(GIT_HASH)">$(GIT_HASH_SHORT)</a>),' \
 		-e 's,<h2.*\">(.*)</h2>,|<b>\1</b>,g' | tr '|' '\n' \
 		| awk '/\<\/?(ul|li)\>$$/ { printf("%s", $$0); next } 1' \
 		> description.html

@@ -20,7 +20,8 @@ Arthaey's add-on:
 * Template-local CSS still applies (Arthaey's add-on replaced the template CSS
   instead of adding to it).
 * Support for more than one file.
-* Global HTML/CSS/JS can be toggled without having to delete or move the file(s).
+* Global HTML/CSS/JS can be toggled without having to delete or move the
+  file(s).
 
 Do note that this add-on makes no changes to the content of your cards; all
 changes are limited to when the card is being rendered. Be sure that your
@@ -70,11 +71,13 @@ will check them; GitHub is the better way to get my attention.
 Please ignore this section if you just want to use the add-on. This is for
 add-on developers only.
 
-Development on this add-on is simple. All code is in the `__init__.py` file.
-The Makefile will create everything needed to upload the add-on to AnkiWeb.
-Then, go to the AnkiWeb add-on portal and choose to update the add-on. Choose
-the created `content-injector.zip` archive as the add-on file, and then paste
-the contents of the new `description.html` into the description field.
+All code is in the `__init__.py` file.  The Makefile will create everything
+needed to upload the add-on to AnkiWeb. Since the release number is specified
+in the documentation, be sure to check out the appropriate version tag before
+building the add-on! Then, go to the AnkiWeb add-on portal and choose to update
+the add-on. Choose the created `content-injector.zip` archive as the add-on
+file, and then paste the contents of the new `description.html` into the
+description field.
 
 ## License
 
