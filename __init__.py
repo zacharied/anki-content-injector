@@ -3,7 +3,6 @@ import os
 from aqt import mw, qt
 from aqt.clayout import CardLayout
 from anki.hooks import addHook, wrap
-import PyQt5
 
 EXT_TO_TAG = {
     '.html': 'div',
