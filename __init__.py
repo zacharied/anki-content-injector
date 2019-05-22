@@ -23,7 +23,7 @@ class ContentInjector():
         action.triggered.connect(lambda: self.onEnabledGlobalChange(action))
 
         addHook('prepareQA', self.injectContent)
-        CardLayout.setupTopArea = wrap(CardLayout.setupTopArea, self.myClayoutTopArea, "around")
+        CardLayout.setupMainArea = wrap(CardLayout.setupMainArea, self.myClayoutMainArea, "around")
 
     def availableInjectFiles(self):
         files = []
@@ -59,7 +59,7 @@ class ContentInjector():
         else:
             return inject + html
 
-    def myClayoutTopArea(self, editor, _old):
+    def myClayoutMainArea(self, editor, _old):
         self.isEnabledPreview = self.isEnabledGlobal
 
         _ret = _old(editor)
@@ -67,7 +67,7 @@ class ContentInjector():
         checkbox = qt.QCheckBox("Inject global content in preview")
         checkbox.setChecked(self.isEnabledPreview)
         checkbox.stateChanged.connect(lambda: self.onEnabledPreviewChange(checkbox, editor))
-        editor.topAreaForm.verticalLayout.addWidget(checkbox)
+        editor.pform.verticalLayout_3.addWidget(checkbox)
 
         return _ret
 
