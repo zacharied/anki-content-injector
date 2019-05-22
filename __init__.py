@@ -16,15 +16,20 @@ class ContentInjector():
         self.isEnabledGlobal = self.config['startEnabled']
         self.isEnabledPreview = self.isEnabledGlobal
 
+        # Add toggle to menu.
         mw.form.menuTools.addSeparator()
         action = mw.form.menuTools.addAction('Inject Global Content')
         action.setCheckable(True)
         action.setChecked(self.isEnabledGlobal)
-        action.triggered.connect(lambda: self.onEnabledGlobalChange(action))
+        action.triggered.connect(lambda: self.onEnabledGlobalChecked(action))
 
+        # Main hook for inserting content.
         addHook('prepareQA', self.injectContent)
+
+        # Add toggle to clayout editor UI.
         CardLayout.setupMainArea = wrap(CardLayout.setupMainArea, self.myClayoutMainArea, "around")
 
+    # Get files in the injectFiles config that exist.
     def availableInjectFiles(self):
         files = []
         for f in self.config['injectFiles']:
@@ -32,13 +37,16 @@ class ContentInjector():
                 files.append(f)
         return files
 
-    def onEnabledGlobalChange(self, action):
+    # Called when the toggle in the main menu is changed.
+    def onEnabledGlobalChecked(self, action):
         self.isEnabledGlobal = action.isChecked()
     
-    def onEnabledPreviewChange(self, action, editor):
+    # Called when the toggle in the clayout editor is changed.
+    def onEnabledPreviewChecked(self, action, editor):
         self.isEnabledPreview = action.isChecked()
         editor.redraw()
 
+    # Given the main card HTML, inject the global content into it.
     def injectContent(self, html, card, context):
         if context == 'clayoutQuestion' or context == 'clayoutAnswer':
             if not self.isEnabledPreview:
@@ -59,6 +67,7 @@ class ContentInjector():
         else:
             return inject + html
 
+    # Monkey patch to modify the clayout editor UI.
     def myClayoutMainArea(self, editor, _old):
         self.isEnabledPreview = self.isEnabledGlobal
 
@@ -66,7 +75,7 @@ class ContentInjector():
 
         checkbox = qt.QCheckBox("Inject global content in preview")
         checkbox.setChecked(self.isEnabledPreview)
-        checkbox.stateChanged.connect(lambda: self.onEnabledPreviewChange(checkbox, editor))
+        checkbox.stateChanged.connect(lambda: self.onEnabledPreviewChecked(checkbox, editor))
         editor.pform.verticalLayout_3.addWidget(checkbox)
 
         return _ret
