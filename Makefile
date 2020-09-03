@@ -2,7 +2,7 @@
 NOPLUG = .git .gitignore Makefile README.md $(DESCRIPTION) $(PACKAGE)
 
 DESCRIPTION := description.html
-PACKAGE := content-injector.zip
+PACKAGE := content-injector.ankiaddon
 
 SHELL := /bin/bash
 
