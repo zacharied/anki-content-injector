@@ -44,7 +44,10 @@ class ContentInjector():
     # Called when the toggle in the clayout editor is changed.
     def onEnabledPreviewChecked(self, action, editor):
         self.isEnabledPreview = action.isChecked()
-        editor.redraw()
+        try:
+            editor.redraw()
+        except:
+            editor.redraw_everything()
 
     # Given the main card HTML, inject the global content into it.
     def injectContent(self, html, card, context):
@@ -76,7 +79,10 @@ class ContentInjector():
         checkbox = qt.QCheckBox("Inject global content in preview")
         checkbox.setChecked(self.isEnabledPreview)
         checkbox.stateChanged.connect(lambda: self.onEnabledPreviewChecked(checkbox, editor))
-        editor.pform.verticalLayout_3.addWidget(checkbox)
+        try:
+            editor.pform.verticalLayout_3.addWidget(checkbox)
+        except:
+            editor.pform.verticalLayout.addWidget(checkbox)
 
         return _ret
 
