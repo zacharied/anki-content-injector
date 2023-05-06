@@ -32,8 +32,9 @@ class ContentInjector():
     # Get files in the injectFiles config that exist.
     def availableInjectFiles(self):
         files = []
-        for f in self.config['injectFiles']:
-            if os.path.isfile(os.path.join(mw.col.media.dir(), f)):
+        for filename in self.config['injectFiles']:
+            f = os.path.join(mw.col.media.dir(), filename)
+            if os.path.isfile(f):
                 files.append(f)
         return files
 
